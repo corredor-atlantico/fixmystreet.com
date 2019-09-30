@@ -1,0 +1,121 @@
+MAP
+  NAME "FMS_WFS_server"
+  STATUS ON
+  SIZE 400 300
+  #SYMBOLSET "../etc/symbols.txt"
+  EXTENT -180 -90 180 90
+  UNITS DD
+  #SHAPEPATH "../data"
+  IMAGECOLOR 255 255 255
+  #FONTSET "../etc/fonts.txt"
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/json; subtype=geojson"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+  END
+
+
+  #
+  # Start of web interface definition
+  #
+  WEB
+    IMAGEPATH "/ms4w/tmp/ms_tmp/"
+    IMAGEURL "/ms_tmp/"
+    METADATA
+      "wfs_title"          "WFS Demo Server for MapServer" ## REQUIRED
+      #"wfs_onlineresource" "http://demo.mapserver.org/cgi-bin/wfs?" ## Recommended
+      "wfs_onlineresource" "https://confirmdev.eu.ngrok.io/localmaps/?" ## Recommended
+      #"wfs_srs"            "EPSG:27700 EPSG:4269 EPSG:3978 EPSG:3857" ## Recommended
+      #"wfs_abstract"       "This text describes my WFS service." ## Recommended
+      "wfs_enable_request" "*"  # necessary
+      "wfs_getfeature_formatlist" "geojson"
+    END
+  END
+
+  #PROJECTION
+  #  "init=epsg:27700"
+  #END
+
+  #
+  # Start of layer definitions
+  #
+
+  ##################
+  # World Continents
+  ##################
+  LAYER
+    NAME "streetlights"
+    METADATA
+      "wfs_title"         "BANES Street Lights" ##REQUIRED
+      "wfs_srs"           "EPSG:3857" ## REQUIRED
+      "gml_include_items" "all" ## Optional (serves all attributes for layer)
+      "gml_featureid"     "ID" ## REQUIRED
+      "wfs_enable_request" "*"
+    END
+    TYPE POLYGON
+    STATUS ON
+    DATA 'banes/lighting3857'
+    PROJECTION
+      "init=epsg:3857"
+    END
+    CLASS
+      NAME 'BANES Street Lights Web'
+      STYLE
+        COLOR 255 128 128
+        OUTLINECOLOR 96 96 96
+      END
+    END
+  END #layer
+
+  LAYER
+    NAME "adoptedhighways"
+    METADATA
+      "wfs_title"         'BANES Adopted Highways' ##REQUIRED
+      "wfs_srs"           "EPSG:3857" ## REQUIRED
+      "gml_include_items" "all" ## Optional (serves all attributes for layer)
+      "gml_featureid"     "ID" ## REQUIRED
+      "wfs_enable_request" "*"
+    END
+    TYPE POLYGON
+    STATUS ON
+    DATA 'banes/adoptedhighways3857polygons'
+    PROJECTION
+      "init=epsg:3857"
+    END
+    CLASS
+      NAME 'BANES Adopted Highways'
+      STYLE
+        COLOR 255 128 128
+        OUTLINECOLOR 96 96 96
+      END
+    END
+  END #layer
+
+  LAYER
+    NAME "adoptedhighwaysbng"
+    METADATA
+      "wfs_title"         'BANES Adopted Highways BNG' ##REQUIRED
+      "wfs_srs"           "EPSG:27700" ## REQUIRED
+      "gml_include_items" "all" ## Optional (serves all attributes for layer)
+      "gml_featureid"     "ID" ## REQUIRED
+      "wfs_enable_request" "*"
+    END
+    TYPE POLYGON
+    STATUS ON
+    DATA 'banes/adoptedhighways27700polygons'
+    PROJECTION
+      "init=epsg:27700"
+    END
+    CLASS
+      NAME 'BANES Adopted Highways BNG'
+      STYLE
+        COLOR 255 128 128
+        OUTLINECOLOR 96 96 96
+      END
+    END
+  END #layer
+
+END #mapfile

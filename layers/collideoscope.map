@@ -1,0 +1,61 @@
+MAP
+  NAME "FMS_WFS_server"
+  STATUS ON
+  SIZE 400 300
+  #SYMBOLSET "../etc/symbols.txt"
+  EXTENT -180 -90 180 90
+  UNITS DD
+  #SHAPEPATH "../data"
+  IMAGECOLOR 255 255 255
+  #FONTSET "../etc/fonts.txt"
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/json; subtype=geojson"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+  END
+
+
+  #
+  # Start of web interface definition
+  #
+  WEB
+    IMAGEPATH "/ms4w/tmp/ms_tmp/"
+    IMAGEURL "/ms_tmp/"
+    METADATA
+      "wfs_title"          "WFS Demo Server for MapServer" ## REQUIRED
+      # "wfs_onlineresource" "https://confirmdev.eu.ngrok.io/localmaps/?" ## Recommended
+      "wfs_srs"            "EPSG:3857 EPSG:27700" ## Recommended
+      #"wfs_abstract"       "This text describes my WFS service." ## Recommended
+      #"wfs_enable_request" "* !GetCapabilities"  # necessary
+      "wfs_enable_request" "*"  # necessary
+      "wfs_getfeature_formatlist" "geojson"
+    END
+  END
+
+  #
+  # Start of layer definitions
+  #
+
+  LAYER
+    NAME "heatmap"
+    METADATA
+      "wfs_title"         "heatmap" ##REQUIRED
+      "wfs_srs"           "EPSG:3857" ## REQUIRED
+      "gml_include_items" "density" ## Optional (serves all attributes for layer)
+      "gml_featureid"     "fid" ## REQUIRED
+      "wfs_enable_request" "*"
+    END
+    TYPE LINE
+    STATUS ON
+    CONNECTIONTYPE OGR
+    CONNECTION 'collideoscope/heatmap.gpkg'
+    DATA 'heatmap'
+    PROJECTION
+      "init=epsg:3857"
+    END
+  END #layer
+
+END #mapfile
