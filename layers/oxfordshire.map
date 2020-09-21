@@ -16,7 +16,7 @@ MAP
     NAME "Trees"
     METADATA
       "wfs_title"         "Trees" ##REQUIRED
-      "wfs_srs"           "EPSG:3857" ## REQUIRED
+      "wfs_srs"           "EPSG:27700 EPSG:3857" ## REQUIRED
       "gml_include_items" "Ref" ## Optional (serves all attributes for layer)
       "gml_featureid"     "Ref" ## REQUIRED
       "wfs_enable_request" "*"
